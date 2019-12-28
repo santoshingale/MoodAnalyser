@@ -1,8 +1,14 @@
 import com.bridgelabz.MoodAnalyzeException;
 import com.bridgelabz.MoodAnalyzer;
+import com.bridgelabz.MoodAnalyzerFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import static java.lang.Class.forName;
 
 public class MoodAnalyzerTest {
 
@@ -70,5 +76,37 @@ public class MoodAnalyzerTest {
         }
 
     }
+
+    @Test
+    public void whenGivenObject_whenProper_shouldReturnObject() {
+        Constructor<?> constructor = null;
+        try {
+            constructor = Class.forName("com.bridgelabz.MoodAnalyzer").getConstructor(String.class);
+            Object myObject = constructor.newInstance("Im so sad right now");
+            MoodAnalyzer moodAnalyzer = (MoodAnalyzer) myObject;
+            String message = moodAnalyzer.analyser();
+            Assert.assertEquals("Sad",message);
+
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenMoodAnalyserClass_whenProper_shouldReturnPbject() {
+        MoodAnalyzer moodAnalyserFactory = MoodAnalyzerFactory.createMoodAnalyser("im so sad right now");
+        MoodAnalyzer moodAnalyser = new MoodAnalyzer();
+        //String analyser = moodAnalyser.analyser();
+        Assert.assertEquals(true,moodAnalyserFactory.equals(moodAnalyser));
+    }
+
 
 }
