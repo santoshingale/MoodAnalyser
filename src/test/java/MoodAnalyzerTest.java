@@ -108,5 +108,22 @@ public class MoodAnalyzerTest {
         Assert.assertEquals(true,moodAnalyserFactory.equals(moodAnalyser));
     }
 
+    @Test
+    public void givenMoodAnalyserClass_whichNotPrecent_shouldGet_notFoundExceptiom() {
+        Constructor<?> constructor = null;
+        try {
+            constructor = Class.forName("com.bridgelabz.Improper").getConstructor(String.class);
+        }catch (ClassNotFoundException e) {
+            try {
+                throw new MoodAnalyzeException(MoodAnalyzeException.ExceptionType.CLASS_NOT_FOUND, "Invalid class name");
+            }
+            catch (MoodAnalyzeException a) {
+                a.printStackTrace();
+            }
+        }catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
