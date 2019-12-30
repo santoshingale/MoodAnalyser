@@ -2,8 +2,9 @@ package com.bridgelabz;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-public class MoodAnalyzerFactory {
+public class MoodAnalyzerReflector {
 
     public static MoodAnalyzer createMoodAnalyser(String message) {
         try {
@@ -38,5 +39,12 @@ public class MoodAnalyzerFactory {
     public static Object getObject(Constructor constructor, String... message) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         Object moodObj = constructor.newInstance(message);
         return moodObj;
+    }
+
+    public static Object getMethod(Object object, String methodName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Class<?> objectClass = object.getClass();
+        Method method = objectClass.getMethod(methodName);
+        Object obj = method.invoke(object);
+        return obj;
     }
 }

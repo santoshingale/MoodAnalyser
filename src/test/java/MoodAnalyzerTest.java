@@ -1,6 +1,6 @@
 import com.bridgelabz.MoodAnalyzeException;
 import com.bridgelabz.MoodAnalyzer;
-import com.bridgelabz.MoodAnalyzerFactory;
+import com.bridgelabz.MoodAnalyzerReflector;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -103,7 +103,7 @@ public class MoodAnalyzerTest {
 
     @Test
     public void givenMoodAnalyserClass_whenProper_shouldReturnPbject() {
-        MoodAnalyzer moodAnalyserFactory = MoodAnalyzerFactory.createMoodAnalyser("im so sad right now");
+        MoodAnalyzer moodAnalyserFactory = MoodAnalyzerReflector.createMoodAnalyser("im so sad right now");
         MoodAnalyzer moodAnalyser = new MoodAnalyzer();
         //String analyser = moodAnalyser.analyser();
         Assert.assertEquals(true,moodAnalyserFactory.equals(moodAnalyser));
@@ -149,8 +149,8 @@ public class MoodAnalyzerTest {
 
     @Test
     public void whenGivenConstuctor_withParameter_shoulReturnObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
-        Constructor constructor = MoodAnalyzerFactory.getConstructor(String.class);
-        Object object = MoodAnalyzerFactory.getObject(constructor,"Im so Sad");
+        Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
+        Object object = MoodAnalyzerReflector.getObject(constructor,"Im so Sad");
         MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
         Assert.assertEquals(true,moodAnalyzer.equals(new MoodAnalyzer("Im so Sad")));
 
@@ -158,8 +158,8 @@ public class MoodAnalyzerTest {
 
     @Test
     public void whenGivenConstuctor_withoutParameter_shoulReturnObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException ,NullPointerException{
-        Constructor constructor = MoodAnalyzerFactory.getConstructor();
-        Object object = MoodAnalyzerFactory.getObject(constructor);
+        Constructor constructor = MoodAnalyzerReflector.getConstructor();
+        Object object = MoodAnalyzerReflector.getObject(constructor);
         MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
         Assert.assertEquals(true,moodAnalyzer.equals(new MoodAnalyzer()));
 
@@ -168,12 +168,11 @@ public class MoodAnalyzerTest {
     @Test
     public void whenGivenMethod_shoulInvokeObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
 
-        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("Im so Sad");
-        Class cls = moodAnalyzer.getClass();
-        Method method = cls.getMethod("analyser");
-        Object object = method.invoke(moodAnalyzer);
-        System.out.println(object);
-        Assert.assertEquals("Sad",object.toString());
+        Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
+        Object object = MoodAnalyzerReflector.getObject(constructor,"Im so Sad");
+        Object obj = MoodAnalyzerReflector.getMethod(object,"analyser");
+        Assert.assertEquals("Sad",obj.toString());
 
     }
+
 }
