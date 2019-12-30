@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static java.lang.Class.forName;
 
@@ -161,6 +162,18 @@ public class MoodAnalyzerTest {
         Object object = MoodAnalyzerFactory.getObject(constructor);
         MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
         Assert.assertEquals(true,moodAnalyzer.equals(new MoodAnalyzer()));
+
+    }
+
+    @Test
+    public void whenGivenMethod_shoulInvokeObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
+
+        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("Im so Sad");
+        Class cls = moodAnalyzer.getClass();
+        Method method = cls.getMethod("analyser");
+        Object object = method.invoke(moodAnalyzer);
+        System.out.println(object);
+        Assert.assertEquals("Sad",object.toString());
 
     }
 }
