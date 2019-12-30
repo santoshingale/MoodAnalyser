@@ -30,7 +30,7 @@ public class MoodAnalyzerTest {
     }
 
     @Test
-    public void whenGivenSadMessageWithAlphabetCapital_shouldReturnSad() {
+    public void whenGivenSadMessage_withAlphabetCapital_shouldReturnSad() {
         MoodAnalyzer moodAnalyzer = new MoodAnalyzer("Im Sad right now");
         String message = moodAnalyzer.analyser();
         Assert.assertEquals("Sad",message);
@@ -56,7 +56,7 @@ public class MoodAnalyzerTest {
         try {
             MoodAnalyzer moodAnalyzer = new MoodAnalyzer(null);
             String analyser = moodAnalyzer.analyser();
-            // Assert.assertEquals("Happy", analyser);
+            Assert.assertEquals("Happy", analyser);
         }
         catch(MoodAnalyzeException e){
 
@@ -70,7 +70,7 @@ public class MoodAnalyzerTest {
         try {
             MoodAnalyzer moodAnalyzer = new MoodAnalyzer("Im so happy today");
             String analyser = moodAnalyzer.analyser();
-            // Assert.assertEquals("Happy", analyser);
+            Assert.assertEquals("Happy", analyser);
         }
         catch(MoodAnalyzeException e){
 
@@ -103,15 +103,15 @@ public class MoodAnalyzerTest {
     }
 
     @Test
-    public void givenMoodAnalyserClass_whenProper_shouldReturnPbject() {
+    public void givenMoodAnalyserClass_whenProper_shouldReturnObject() {
         MoodAnalyzer moodAnalyserFactory = MoodAnalyzerReflector.createMoodAnalyser("im so sad right now");
-        MoodAnalyzer moodAnalyser = new MoodAnalyzer();
+        MoodAnalyzer moodAnalyser = new MoodAnalyzer("im so sad right now");
         //String analyser = moodAnalyser.analyser();
         Assert.assertEquals(true,moodAnalyserFactory.equals(moodAnalyser));
     }
 
     @Test
-    public void givenMoodAnalyserClass_whichNotPrecent_shouldGet_notFoundExceptiom() {
+    public void givenMoodAnalyserClass_whichNotPrecent_shouldGet_notFoundException() {
         Constructor<?> constructor = null;
         try {
             constructor = Class.forName("com.bridgelabz.Improper").getConstructor(String.class);
@@ -149,7 +149,7 @@ public class MoodAnalyzerTest {
     }
 
     @Test
-    public void whenGivenConstuctor_withParameter_shoulReturnObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
+    public void whenGivenConstuctor_withParameter_shouldReturnObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
         Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
         Object object = MoodAnalyzerReflector.getObject(constructor,"Im so Sad");
         MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
@@ -158,7 +158,7 @@ public class MoodAnalyzerTest {
     }
 
     @Test
-    public void whenGivenConstuctor_withoutParameter_shoulReturnObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException ,NullPointerException{
+    public void whenGivenConstuctor_withoutParameter_shouldReturnObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException ,NullPointerException{
         Constructor constructor = MoodAnalyzerReflector.getConstructor();
         Object object = MoodAnalyzerReflector.getObject(constructor);
         MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
@@ -202,11 +202,27 @@ public class MoodAnalyzerTest {
     @Test
     public void whenGiven_ImproperField_shouldThrowException() {
         try {
-            Field field = forName("com.bridgelabz.MoodAnalyzer").getField("mesa");
+            Field field = Class.forName("com.bridgelabz.MoodAnalyzer").getField("mesa");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void whenGivenNull_inGEtConstructor_shoulReturnError() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
+        Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
+        try {
+            Object object = MoodAnalyzerReflector.getObject(null);
+            MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
+        }
+        catch (MoodAnalyzeException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
 }

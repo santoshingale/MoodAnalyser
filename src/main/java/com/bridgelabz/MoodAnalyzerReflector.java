@@ -37,8 +37,13 @@ public class MoodAnalyzerReflector {
     }
 
     public static Object getObject(Constructor constructor, String... message) throws IllegalAccessException, InvocationTargetException, InstantiationException {
-        Object moodObj = constructor.newInstance(message);
-        return moodObj;
+        try {
+            Object moodObj = constructor.newInstance(message);
+            return moodObj;
+        }
+        catch (NullPointerException e) {
+            throw new MoodAnalyzeException(MoodAnalyzeException.ExceptionType.ENTERED_NULL, "Null pointer Exception");
+        }
     }
 
     public static Object getMethod(Object object, String methodName) {
