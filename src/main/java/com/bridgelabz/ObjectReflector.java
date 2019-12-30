@@ -31,6 +31,7 @@ public class ObjectReflector {
                 } else buffer.append(dump(value, callCount));
 
 
+
             }
             buffer.append(tabs.toString());
             buffer.append("]\n");

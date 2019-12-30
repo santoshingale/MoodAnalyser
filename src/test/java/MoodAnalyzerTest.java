@@ -118,12 +118,49 @@ public class MoodAnalyzerTest {
                 throw new MoodAnalyzeException(MoodAnalyzeException.ExceptionType.CLASS_NOT_FOUND, "Invalid class name");
             }
             catch (MoodAnalyzeException a) {
+                Assert.assertEquals("Invalid class name",a.getMessage());
                 a.printStackTrace();
             }
         }catch (NoSuchMethodException e) {
+
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void whenGivenInvalid_mothodName_shouldThrowException() {
+        Constructor<?> constructor = null;
+        try {
+            constructor = Class.forName("com.bridgelabz.MoodAnalyzer").getConstructor(Integer.class);
+
+
+        } catch (NoSuchMethodException e) {
+            try {
+                throw new MoodAnalyzeException(MoodAnalyzeException.ExceptionType.METHOD_NOT_FOUND, "Invalid method name");
+            }
+            catch (MoodAnalyzeException a) {
+                Assert.assertEquals("Invalid method name",a.getMessage());
+                a.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
+    @Test
+    public void whenGivenConstuctor_withParameter_shoulReturnObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
+        Constructor constructor = MoodAnalyzerFactory.getConstructor(String.class);
+        Object object = MoodAnalyzerFactory.getObject(constructor,"Im so Sad");
+        MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
+        Assert.assertEquals(true,moodAnalyzer.equals(new MoodAnalyzer("Im so Sad")));
 
+    }
+
+    @Test
+    public void whenGivenConstuctor_withoutParameter_shoulReturnObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException ,NullPointerException{
+        Constructor constructor = MoodAnalyzerFactory.getConstructor();
+        Object object = MoodAnalyzerFactory.getObject(constructor);
+        MoodAnalyzer moodAnalyzer = (MoodAnalyzer) object;
+        Assert.assertEquals(true,moodAnalyzer.equals(new MoodAnalyzer()));
+
+    }
 }
