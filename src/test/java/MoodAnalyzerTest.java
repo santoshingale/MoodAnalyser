@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -178,7 +179,6 @@ public class MoodAnalyzerTest {
     @Test
     public void whenGivenMethod_nameWhichNotPresent_shouldGiveError() {
 
-
         try {
             Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
             Object object = MoodAnalyzerReflector.getObject(constructor,"Im so Sad");
@@ -197,8 +197,16 @@ public class MoodAnalyzerTest {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
     }
 
+    @Test
+    public void whenGiven_ImproperField_shouldThrowException() {
+        try {
+            Field field = forName("com.bridgelabz.MoodAnalyzer").getField("mesa");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
 }
