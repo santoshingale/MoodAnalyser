@@ -166,12 +166,38 @@ public class MoodAnalyzerTest {
     }
 
     @Test
-    public void whenGivenMethod_shoulInvokeObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
+    public void whenGivenMethod_shouldInvokeObject() throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
 
         Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
         Object object = MoodAnalyzerReflector.getObject(constructor,"Im so Sad");
-        Object obj = MoodAnalyzerReflector.getMethod(object,"analyser");
-        Assert.assertEquals("Sad",obj.toString());
+        String msg = (String) MoodAnalyzerReflector.getMethod(object,"analyser");
+        Assert.assertEquals("Sad",msg);
+
+    }
+
+    @Test
+    public void whenGivenMethod_nameWhichNotPresent_shouldGiveError() {
+
+
+        try {
+            Constructor constructor = MoodAnalyzerReflector.getConstructor(String.class);
+            Object object = MoodAnalyzerReflector.getObject(constructor,"Im so Sad");
+            String msg = (String) MoodAnalyzerReflector.getMethod(object,"analysr");
+            Assert.assertEquals("Sad",msg);
+        } catch (MoodAnalyzeException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

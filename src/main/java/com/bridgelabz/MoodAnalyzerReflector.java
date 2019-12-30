@@ -41,10 +41,20 @@ public class MoodAnalyzerReflector {
         return moodObj;
     }
 
-    public static Object getMethod(Object object, String methodName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Class<?> objectClass = object.getClass();
-        Method method = objectClass.getMethod(methodName);
-        Object obj = method.invoke(object);
-        return obj;
+    public static Object getMethod(Object object, String methodName) {
+
+        try {
+            Class<?> objectClass = object.getClass();
+            Method method = objectClass.getMethod(methodName);
+            Object obj = method.invoke(object);
+            return obj;
+        } catch (NoSuchMethodException e) {
+            throw new MoodAnalyzeException(MoodAnalyzeException.ExceptionType.METHOD_NOT_FOUND, "Invalid method name");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    return null;
     }
 }
